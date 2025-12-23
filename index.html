@@ -18,8 +18,9 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <!-- Importation des nouvelles polices -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Fredoka:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Fredoka:wght@400;700&family=Dancing+Script:wght@700&family=Indie+Flower&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -66,7 +67,7 @@
           ),
           linear-gradient(var(--asphalt) 0%, #1a252f 100%);
         background-size: 100% 100px;
-        animation: roadMove 1s linear infinite;
+        animation: roadMove 0.5s linear infinite; /* Plus rapide pour effet course */
         animation-play-state: paused;
       }
 
@@ -120,6 +121,7 @@
         text-transform: uppercase;
         width: 80%;
         max-width: 400px;
+        margin-bottom: 15px;
       }
 
       .btn-main:active {
@@ -127,46 +129,75 @@
         box-shadow: 0 0 0 #78281f, 0 5px 10px rgba(0, 0, 0, 0.4);
       }
 
+      .btn-secondary {
+        background: #34495e;
+        border: 2px solid #fff;
+        color: white;
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        border-radius: 30px;
+        cursor: pointer;
+        font-family: "Fredoka", sans-serif;
+        margin-top: 10px;
+      }
+
       /* --- MENU SCREEN --- */
       #screen-menu {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 30px;
+        gap: 20px;
         width: 100%;
       }
 
-      .high-scores {
-        background: rgba(0, 0, 0, 0.5);
+      /* --- HISTORY SCREEN --- */
+      #screen-history {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;
         padding: 20px;
-        border-radius: 15px;
-        border: 2px solid #fff;
-        width: 80%;
-        text-align: center;
-      }
-      .high-scores h3 {
-        margin-top: 0;
-        color: var(--road-line);
-      }
-      .score-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        font-size: 1.2rem;
-      }
-      .score-list li {
-        margin: 5px 0;
-        border-bottom: 1px dashed #555;
-        padding-bottom: 5px;
+        box-sizing: border-box;
       }
 
-      /* Animation Voiture Intro */
+      .history-list-container {
+        flex: 1;
+        width: 100%;
+        max-width: 500px;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        border: 2px solid #fff;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      .history-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px dashed #777;
+        font-size: 1.2rem;
+      }
+      .history-item:first-child {
+        color: var(--road-line);
+        font-weight: bold;
+      }
+
+      .btn-reset {
+        background: #c0392b;
+        font-size: 1rem;
+        padding: 10px;
+        margin-top: 10px;
+      }
+
+      /* Animation Voiture Intro (F1 SVG) */
       .drift-car {
         position: fixed;
         bottom: 20%;
-        left: -200px;
-        font-size: 6rem;
-        color: #e74c3c;
+        left: -300px;
+        width: 250px;
         filter: drop-shadow(10px 10px 5px rgba(0, 0, 0, 0.5));
         animation: driftIntro 2s ease-out forwards;
         z-index: 10;
@@ -174,16 +205,16 @@
 
       @keyframes driftIntro {
         0% {
-          left: -200px;
+          left: -300px;
           transform: rotate(0deg);
         }
         60% {
           left: 50%;
-          transform: rotate(0deg) scale(1.2);
+          transform: rotate(0deg) scale(1.1);
         }
         80% {
           left: 60%;
-          transform: rotate(-20deg) scale(1.2);
+          transform: rotate(-10deg) scale(1.1);
         }
         100% {
           left: 120%;
@@ -242,8 +273,9 @@
         align-items: center;
         width: 100%;
         height: 100%;
-        justify-content: space-between;
+        justify-content: flex-start;
         padding: 20px 0;
+        box-sizing: border-box;
       }
 
       .hud {
@@ -256,71 +288,114 @@
         padding: 10px 20px;
         border-radius: 50px;
         border: 2px solid #fff;
+        margin-bottom: 20px;
       }
 
       .word-display {
-        flex: 1;
+        height: 150px;
+        width: 95%;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 95%;
         background: #fff;
         color: #2c3e50;
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        margin: 20px 0;
+        margin-bottom: 30px;
         position: relative;
         overflow: hidden;
       }
 
       #current-word {
-        font-size: 4rem; /* Très gros */
+        font-size: 3.5rem;
         font-weight: bold;
         text-align: center;
         word-break: break-word;
-        padding: 20px;
+        padding: 10px;
+        line-height: 1.1;
       }
 
-      /* Pédale d'accélérateur */
-      .gas-pedal {
+      /* Classes de polices aléatoires */
+      .font-classic {
+        font-family: "Fredoka", sans-serif;
+      }
+      .font-script {
+        font-family: "Dancing Script", cursive;
+        font-size: 4rem !important;
+      }
+      .font-school {
+        font-family: "Indie Flower", cursive;
+        font-size: 3.8rem !important;
+        font-weight: bold;
+      }
+
+      /* Zone de conduite */
+      .driving-zone {
+        flex: 1;
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end; /* Voiture en bas */
+        padding-bottom: 20px;
+        overflow: hidden;
+      }
+
+      .player-car {
+        width: 180px;
+        filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.6));
+        animation: carWobble 2s ease-in-out infinite;
+        z-index: 5;
+      }
+
+      @keyframes carWobble {
+        0% {
+          transform: translateX(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateX(-20px) rotate(-2deg);
+        }
+        75% {
+          transform: translateX(20px) rotate(2deg);
+        }
+        100% {
+          transform: translateX(0px) rotate(0deg);
+        }
+      }
+
+      /* Bouton Suivant Fixe */
+      .btn-next-word {
+        position: absolute;
+        bottom: 30px;
+        right: 20px;
+        background: #27ae60;
+        border: 4px solid #fff;
+        color: white;
         width: 120px;
-        height: 200px;
-        background: linear-gradient(
-          135deg,
-          #7f8c8d 0%,
-          #bdc3c7 50%,
-          #7f8c8d 100%
-        );
-        border-radius: 10px 10px 40px 40px;
-        border: 4px solid #555;
+        height: 120px;
+        border-radius: 50%;
+        font-family: "Racing Sans One", cursive;
+        font-size: 1.2rem;
+        cursor: pointer;
+        box-shadow: 0 5px 0 #1e8449, 0 10px 20px rgba(0, 0, 0, 0.4);
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 10px 0 #333, 5px 20px 20px rgba(0, 0, 0, 0.5);
-        transition: all 0.1s;
-        margin-bottom: 20px;
-        position: relative;
+        text-transform: uppercase;
+        z-index: 20; /* Au dessus de la voiture */
+        transition: transform 0.1s;
       }
 
-      .gas-pedal::after {
-        content: "SUIVANT";
-        font-family: "Racing Sans One";
-        transform: rotate(-90deg);
-        font-size: 1.5rem;
-        color: #333;
-        letter-spacing: 2px;
+      .btn-next-word:active {
+        transform: scale(0.95) translateY(5px);
+        box-shadow: 0 0 0 #1e8449;
+        background: #2ecc71;
       }
 
-      .gas-pedal:active {
-        transform: rotateX(20deg) translateY(10px);
-        box-shadow: 0 0 0 #333, 2px 5px 10px rgba(0, 0, 0, 0.5);
-        background: linear-gradient(
-          135deg,
-          #27ae60 0%,
-          #2ecc71 50%,
-          #27ae60 100%
-        ); /* Vert quand on appuie */
+      .btn-next-word i {
+        font-size: 2rem;
+        margin-bottom: 5px;
+        display: block;
       }
 
       /* --- RESULT SCREEN (PODIUM) --- */
@@ -329,6 +404,7 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
+        text-align: center;
       }
 
       .podium-container {
@@ -337,7 +413,7 @@
         justify-content: center;
         height: 300px;
         width: 100%;
-        margin-top: 50px;
+        margin-top: 30px;
       }
 
       .step {
@@ -350,6 +426,7 @@
         justify-content: flex-end;
         position: relative;
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+        padding-bottom: 10px;
       }
 
       .step-1 {
@@ -372,7 +449,14 @@
         font-size: 3rem;
         font-family: "Racing Sans One";
         color: rgba(255, 255, 255, 0.5);
-        margin-bottom: 10px;
+        line-height: 1;
+      }
+      .score-on-step {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 1px 1px 0 #000;
+        margin-top: 5px;
       }
 
       .avatar {
@@ -385,7 +469,7 @@
       .avatar.baptiste {
         color: #3498db;
         text-shadow: 0 0 10px white;
-      } /* Le héros */
+      }
 
       @keyframes bounce {
         from {
@@ -404,7 +488,7 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.8);
-        display: none; /* Activé via JS */
+        display: none;
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -482,7 +566,26 @@
         }
       }
 
-      /* Media Queries pour petit écran */
+      .champ-message {
+        font-size: 1.5rem;
+        color: #f1c40f;
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px #000;
+      }
+
+      /* Version Tag */
+      .version-tag {
+        position: fixed;
+        bottom: 5px;
+        left: 5px; /* Déplacé à gauche pour ne pas gêner le bouton suivant */
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.3);
+        pointer-events: none;
+        font-family: sans-serif;
+      }
+
+      /* Media Queries */
       @media (max-width: 600px) {
         h1 {
           font-size: 2rem;
@@ -490,9 +593,18 @@
         #current-word {
           font-size: 2.5rem;
         }
-        .gas-pedal {
-          width: 100px;
-          height: 160px;
+        .word-display {
+          height: 120px;
+        }
+        .player-car {
+          width: 140px;
+        }
+        .btn-next-word {
+          width: 90px;
+          height: 90px;
+          font-size: 1rem;
+          right: 10px;
+          bottom: 10px;
         }
       }
     </style>
@@ -503,8 +615,51 @@
     <div class="road-bg"></div>
 
     <div id="app-container">
-      <!-- INTRO CAR ANIMATION -->
-      <i class="fa-solid fa-car-side drift-car" id="intro-car"></i>
+      <!-- INTRO CAR ANIMATION (F1 SVG) -->
+      <div class="drift-car" id="intro-car">
+        <svg viewBox="0 0 512 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Spoiler Arrière -->
+          <path d="M10 40 h40 v40 h-40 z" fill="#c0392b" />
+          <path d="M50 60 h20 v10 h-20 z" fill="#7f8c8d" />
+          <!-- Corps -->
+          <path d="M60 80 h300 l80 40 v40 h-440 v-40 z" fill="#e74c3c" />
+          <!-- Cockpit -->
+          <path d="M250 80 c0 -30 40 -30 60 0" fill="#333" />
+          <!-- Roues -->
+          <circle
+            cx="100"
+            cy="160"
+            r="35"
+            fill="#2c3e50"
+            stroke="#111"
+            stroke-width="5"
+          />
+          <circle
+            cx="400"
+            cy="160"
+            r="35"
+            fill="#2c3e50"
+            stroke="#111"
+            stroke-width="5"
+          />
+          <circle cx="100" cy="160" r="15" fill="#7f8c8d" />
+          <circle cx="400" cy="160" r="15" fill="#7f8c8d" />
+          <!-- Aileron Avant -->
+          <path d="M440 140 h60 l-10 20 h-50 z" fill="#c0392b" />
+          <!-- Numéro -->
+          <text
+            x="220"
+            y="130"
+            font-family="Arial"
+            font-weight="bold"
+            font-size="40"
+            fill="white"
+            style="transform: skewX(-10deg)"
+          >
+            1
+          </text>
+        </svg>
+      </div>
 
       <!-- MENU -->
       <div id="screen-menu">
@@ -514,19 +669,32 @@
           <br />
           RACING
         </h1>
-        <div class="high-scores">
-          <h3>
-            <i class="fa-solid fa-trophy"></i>
-            MEILLEURS TEMPS
-          </h3>
-          <ul class="score-list" id="score-list">
-            <li>-</li>
-            <li>-</li>
-            <li>-</li>
-          </ul>
-        </div>
+
         <button class="btn-main" onclick="startCountdown()">
           DÉMARRER LA COURSE
+        </button>
+        <button class="btn-secondary" onclick="showHistory()">
+          <i class="fa-solid fa-list-ol"></i>
+          Historique
+        </button>
+      </div>
+
+      <!-- HISTORY SCREEN -->
+      <div id="screen-history">
+        <h1>HISTORIQUE</h1>
+        <div class="history-list-container" id="history-container">
+          <!-- Liste remplie par JS -->
+        </div>
+        <button
+          class="btn-main"
+          onclick="goMenu()"
+          style="font-size: 1.5rem; padding: 10px 30px"
+        >
+          Retour
+        </button>
+        <button class="btn-secondary btn-reset" onclick="resetScores()">
+          <i class="fa-solid fa-trash"></i>
+          Réinitialiser
         </button>
       </div>
 
@@ -559,19 +727,63 @@
           <div id="current-word">PRÊT ?</div>
         </div>
 
-        <!-- Bouton Pédale -->
-        <div class="gas-pedal" onclick="nextWord()" id="pedal-btn"></div>
+        <!-- Zone de conduite avec Voiture -->
+        <div class="driving-zone">
+          <div class="player-car">
+            <!-- Même SVG que l'intro mais statique -->
+            <svg viewBox="0 0 512 200" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 40 h40 v40 h-40 z" fill="#c0392b" />
+              <path d="M50 60 h20 v10 h-20 z" fill="#7f8c8d" />
+              <path d="M60 80 h300 l80 40 v40 h-440 v-40 z" fill="#e74c3c" />
+              <path d="M250 80 c0 -30 40 -30 60 0" fill="#333" />
+              <circle
+                cx="100"
+                cy="160"
+                r="35"
+                fill="#2c3e50"
+                stroke="#111"
+                stroke-width="5"
+              />
+              <circle
+                cx="400"
+                cy="160"
+                r="35"
+                fill="#2c3e50"
+                stroke="#111"
+                stroke-width="5"
+              />
+              <circle cx="100" cy="160" r="15" fill="#7f8c8d" />
+              <circle cx="400" cy="160" r="15" fill="#7f8c8d" />
+              <path d="M440 140 h60 l-10 20 h-50 z" fill="#c0392b" />
+              <text
+                x="220"
+                y="130"
+                font-family="Arial"
+                font-weight="bold"
+                font-size="40"
+                fill="white"
+                style="transform: skewX(-10deg)"
+              >
+                1
+              </text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Bouton Suivant -->
+        <div class="btn-next-word" onclick="nextWord()">
+          <div>
+            <i class="fa-solid fa-forward"></i>
+            SUIVANT
+          </div>
+        </div>
       </div>
 
       <!-- RESULT PODIUM -->
       <div id="screen-result">
-        <h1>COURSE TERMINÉE !</h1>
-        <div style="font-size: 2rem; margin-bottom: 20px">
-          Score :
-          <span id="final-score" style="color: #f1c40f; font-weight: bold">
-            0
-          </span>
-          mots
+        <h1 style="font-size: 2rem; margin: 10px 0">COURSE TERMINÉE !</h1>
+        <div class="champ-message">
+          Bravo Baptiste, tu es un vrai champion de lecture !
         </div>
 
         <div class="podium-container" id="podium">
@@ -605,6 +817,8 @@
         </p>
       </div>
     </div>
+
+    <div class="version-tag">v3.1</div>
 
     <script>
       // --- DATA : 350+ Mots (Niveau ~8 ans / CE2) ---
@@ -931,48 +1145,105 @@
 
       // --- INIT ---
       window.onload = function () {
-        loadHighScores();
-        // Préparer l'audio context (nécessite interaction utilisateur pour démarrer vraiment)
+        // Audio context setup
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         audioCtx = new AudioContext();
       };
 
-      // --- SOUND ENGINE (Synthétiseur "Vroum") ---
+      // --- SOUND ENGINE ---
+      // Son de démarrage (Rev moteur)
+      function playStartSound() {
+        if (!audioCtx) return;
+        if (audioCtx.state === "suspended") audioCtx.resume();
+
+        const t = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "sawtooth";
+        // Montée en régime
+        osc.frequency.setValueAtTime(100, t);
+        osc.frequency.exponentialRampToValueAtTime(600, t + 0.8);
+        osc.frequency.linearRampToValueAtTime(100, t + 1.2);
+
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.linearRampToValueAtTime(0, t + 1.2);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(t + 1.3);
+      }
+
+      // Son Accélération "Vroum" (Passage de mot)
       function playEngineSound() {
         if (!audioCtx) return;
         if (audioCtx.state === "suspended") audioCtx.resume();
 
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const t = audioCtx.currentTime;
 
-        // Type de son : dent de scie pour faire "moteur"
-        osc.type = "sawtooth";
+        // Oscillateur 1 (Base grave)
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.type = "sawtooth";
+        osc1.frequency.setValueAtTime(120, t);
+        osc1.frequency.linearRampToValueAtTime(400, t + 0.2); // Montée rapide
+        gain1.gain.setValueAtTime(0.2, t);
+        gain1.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
 
-        // Pitch qui monte (accélération)
-        osc.frequency.setValueAtTime(80, audioCtx.currentTime);
-        osc.frequency.linearRampToValueAtTime(300, audioCtx.currentTime + 0.3);
+        // Connexions
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
 
-        // Volume qui baisse
-        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(
-          0.01,
-          audioCtx.currentTime + 0.3
-        );
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.3);
+        osc1.start();
+        osc1.stop(t + 0.3);
       }
 
-      // --- LOGIQUE JEU ---
+      // --- NAVIGATION ---
+      function goMenu() {
+        document.getElementById("screen-history").style.display = "none";
+        document.getElementById("screen-menu").style.display = "flex";
+      }
+
+      function showHistory() {
+        document.getElementById("screen-menu").style.display = "none";
+        document.getElementById("screen-history").style.display = "flex";
+
+        let scores =
+          JSON.parse(localStorage.getItem("baptiste_racing_scores")) || [];
+        const container = document.getElementById("history-container");
+
+        if (scores.length === 0) {
+          container.innerHTML =
+            "<div style='color:#ccc; text-align:center;'>Aucune course enregistrée</div>";
+        } else {
+          container.innerHTML = scores
+            .map(
+              (s, i) =>
+                `<div class="history-item">
+                        <span>#${i + 1}</span>
+                        <span>${s} mots</span>
+                    </div>`
+            )
+            .join("");
+        }
+      }
+
+      function resetScores() {
+        if (confirm("Effacer tout l'historique ?")) {
+          localStorage.removeItem("baptiste_racing_scores");
+          showHistory(); // Refresh
+        }
+      }
+
+      // --- JEU ---
 
       function startCountdown() {
+        playStartSound(); // VROUM au démarrage
+
         document.getElementById("screen-menu").style.display = "none";
         document.getElementById("screen-countdown").style.display = "flex";
 
-        // Mélanger les mots pour cette partie
         availableWords = [...wordsDatabase].sort(() => Math.random() - 0.5);
         currentScore = 0;
         timeLeft = 60;
@@ -984,7 +1255,12 @@
         };
         const countText = document.getElementById("countdown-display");
 
-        // Séquence Feux
+        // Reset lights
+        lights.red.className = "light red";
+        lights.orange.className = "light orange";
+        lights.green.className = "light green";
+
+        // Sequence
         setTimeout(() => {
           lights.red.classList.add("active");
           countText.innerText = "3";
@@ -1005,7 +1281,7 @@
 
         setTimeout(() => {
           countText.innerText = "GO !";
-          playBeep(800); // High pitch
+          playBeep(800);
           setTimeout(startGame, 500);
         }, 3500);
       }
@@ -1044,11 +1320,11 @@
         if (!gameActive) return;
 
         // Animation bouton
-        const btn = document.getElementById("pedal-btn");
+        const btn = document.querySelector(".btn-next-word");
         btn.style.transform = "scale(0.95)";
         setTimeout(() => (btn.style.transform = "scale(1)"), 100);
 
-        playEngineSound(); // VROUM !
+        playEngineSound();
         currentScore++;
         updateHUD();
         showNextWord();
@@ -1058,14 +1334,18 @@
         if (availableWords.length === 0)
           availableWords = [...wordsDatabase].sort(() => Math.random() - 0.5);
         const word = availableWords.pop();
-        document.getElementById("current-word").innerText = word;
+        const wordEl = document.getElementById("current-word");
+        wordEl.innerText = word;
+
+        // Changement de police aléatoire
+        const fonts = ["font-classic", "font-script", "font-school"];
+        wordEl.className = fonts[Math.floor(Math.random() * fonts.length)];
       }
 
       function updateHUD() {
         document.getElementById("timer-display").innerText = timeLeft;
         document.getElementById("word-count-display").innerText = currentScore;
 
-        // Alerte visuelle timer
         if (timeLeft <= 10) {
           document.getElementById("timer-display").style.color = "#e74c3c";
         }
@@ -1081,8 +1361,42 @@
         saveScore(currentScore);
         showPodium(currentScore);
 
-        // Son de fin (Applause simulé via confettis)
-        confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
+        // Feu d'artifice Intense
+        launchFireworks();
+      }
+
+      function launchFireworks() {
+        const duration = 5000;
+        const animationEnd = Date.now() + duration;
+        const defaults = {
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          zIndex: 0,
+        };
+
+        const interval = setInterval(function () {
+          const timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+
+          const particleCount = 50 * (timeLeft / duration);
+          // since particles fall down, start a bit higher than random
+          confetti(
+            Object.assign({}, defaults, {
+              particleCount,
+              origin: { x: Math.random(), y: Math.random() - 0.2 },
+            })
+          );
+          confetti(
+            Object.assign({}, defaults, {
+              particleCount,
+              origin: { x: Math.random(), y: Math.random() - 0.2 },
+            })
+          );
+        }, 250);
       }
 
       // --- HIGHSCORES & PODIUM ---
@@ -1091,32 +1405,25 @@
         let scores =
           JSON.parse(localStorage.getItem("baptiste_racing_scores")) || [];
         scores.push(score);
-        scores.sort((a, b) => b - a); // Descendant
-        scores = scores.slice(0, 5); // Garder top 5
+        scores.sort((a, b) => b - a); // Descendant (Meilleur en premier)
         localStorage.setItem("baptiste_racing_scores", JSON.stringify(scores));
-      }
-
-      function loadHighScores() {
-        let scores =
-          JSON.parse(localStorage.getItem("baptiste_racing_scores")) || [];
-        const list = document.getElementById("score-list");
-        list.innerHTML =
-          scores
-            .map((s, i) => `<li>${i + 1}. <strong>${s}</strong> mots</li>`)
-            .join("") || "<li>Aucun score</li>";
       }
 
       function showPodium(newScore) {
         let scores =
           JSON.parse(localStorage.getItem("baptiste_racing_scores")) || [];
-        // Trouver le rang du nouveau score
-        // Note: scores est déjà trié et contient le nouveau score
-        const rank = scores.indexOf(newScore) + 1; // 1 = 1er, etc.
+
+        const top1 = scores[0] || 0;
+        const top2 = scores[1] || 0;
+        const top3 = scores[2] || 0;
+
+        const rank = scores.indexOf(newScore) + 1; // 1 = 1er
 
         const podiumDiv = document.getElementById("podium");
         podiumDiv.innerHTML = `
                 <div class="step step-2">
                     <div class="rank-num">2</div>
+                    <div class="score-on-step">${top2}</div>
                     ${
                       rank === 2
                         ? '<div class="avatar baptiste"><i class="fa-solid fa-child-reaching"></i></div>'
@@ -1125,6 +1432,7 @@
                 </div>
                 <div class="step step-1">
                     <div class="rank-num">1</div>
+                    <div class="score-on-step">${top1}</div>
                     ${
                       rank === 1
                         ? '<div class="avatar baptiste"><i class="fa-solid fa-child-reaching"></i></div>'
@@ -1133,6 +1441,7 @@
                 </div>
                 <div class="step step-3">
                     <div class="rank-num">3</div>
+                    <div class="score-on-step">${top3}</div>
                     ${
                       rank === 3
                         ? '<div class="avatar baptiste"><i class="fa-solid fa-child-reaching"></i></div>'
@@ -1141,49 +1450,14 @@
                 </div>
             `;
 
-        // Si hors podium (>3)
+        // Scène Spéciale "Fille/Bisou" si hors podium (Rank > 3)
         if (rank > 3) {
-          // On pourrait ajouter un bonhomme triste devant, mais le user a demandé
-          // "si plus que 3e, il se place devant le podium avec une jolie fille..."
-          // ATTENTION: "plus que 3e" peut vouloir dire "meilleur que 3e" (donc 1 ou 2) ou "au delà de 3" (4, 5).
-          // Interprétation logique : Podium = 1, 2, 3.
-          // La demande est : "S'il fait plus que 3e" (sous entendu MIEUX que 3e ?) -> Non, le prompt dit "S'il fait son meilleur score, il monte en haut...".
-          // Ah, "S'il fait PLUS QUE 3e" -> généralement veut dire 4e, 5e... MAIS le prompt dit "il se place devant le podium avec une jolie fille qui lui remet sa médaille". C'est une récompense de consolation ou une super récompense ?
-          // Vu le contexte "bisou marque rouge à lèvre", c'est une super récompense.
-          // RELECTURE PROMPT: "S'il fait son meilleur score [1er]... S'il fait son 2e... S'il fait son 3e... Et s'il fait plus que 3e [donc 4e, 5e, etc] il se place devant le podium avec une jolie fille..."
-
-          // OK, donc c'est une récompense "Fun" pour les scores non-podium pour ne pas être triste.
-          // OU ALORS "Plus que 3e" = 1er, 2e, 3e (Top 3).
-          // Je vais assumer que la "Special Reward" (Bisou) c'est pour le **1er** (Meilleur score) ou un record absolu.
-          // MAIS suivons le texte littéral : "s'il fait plus que 3e" (sous entendu 4e ou plus loin). C'est drôle comme concept (consolation).
-
-          // Décision : Je vais déclencher la scène "Fille/Bisou" si le score est un **NOUVEAU RECORD** (1ère place) car c'est plus gratifiant, OU si c'est ce que l'utilisateur voulait dire par "plus que 3e" (Top 3).
-          // Correction: je vais mettre la scène spéciale si Rank <= 3 (Podium) pour féliciter.
-
-          // WAIT : "S'il fait plus que 3e [donc 4e, 5e...], il se place devant le podium avec une jolie fille".
-          // C'est une récompense de consolation "classe". Je vais faire ça.
-
           setTimeout(() => {
             document.getElementById("special-reward").style.display = "flex";
             document.getElementById("special-reward").onclick = function () {
               this.style.display = "none";
             };
-          }, 1500);
-        } else {
-          // Si sur le podium (1, 2, 3), juste confettis classiques déjà lancés.
-          // Mais ajoutons aussi la scène spéciale pour le 1er car c'est cool.
-          if (rank === 1) {
-            setTimeout(() => {
-              document.querySelector("#special-reward h2").innerText =
-                "RECORD BATTU !";
-              document.querySelector("#special-reward p").innerText =
-                "Tu es le champion !";
-              document.getElementById("special-reward").style.display = "flex";
-              document.getElementById("special-reward").onclick = function () {
-                this.style.display = "none";
-              };
-            }, 1500);
-          }
+          }, 2000);
         }
       }
     </script>
