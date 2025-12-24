@@ -216,27 +216,36 @@
         padding: 10px;
         margin-bottom: 20px;
       }
+
+      /* Layout Historique sur une ligne */
       .history-item {
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 10px;
+        padding: 12px;
         border-bottom: 1px dashed #777;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        gap: 15px;
       }
       .history-item:first-child {
         color: var(--road-line);
         font-weight: bold;
       }
 
+      .history-rank {
+        width: 30px;
+        font-weight: bold;
+      }
+      .history-score {
+        flex: 1;
+        text-align: left;
+        font-weight: bold;
+      }
       .history-date {
         font-size: 0.8rem;
         color: #aaa;
-        margin-left: 10px;
-        display: block;
-      }
-      .history-score {
-        font-weight: bold;
+        white-space: nowrap;
       }
 
       .btn-reset {
@@ -326,7 +335,7 @@
 
       .word-display {
         flex: 1; /* Prend toute la place restante */
-        height: 160px;
+        height: 200px; /* Plus haut pour le gros texte */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -340,12 +349,12 @@
       }
 
       #current-word {
-        font-size: 5rem; /* SUPER GROS */
+        font-size: 7rem; /* ENORME */
         font-weight: bold;
         text-align: center;
         word-break: break-word;
         padding: 5px;
-        line-height: 1; /* Interligne serré */
+        line-height: 0.9; /* Interligne très serré */
         width: 100%;
       }
 
@@ -596,10 +605,10 @@
           font-size: 2.2rem;
         }
         #current-word {
-          font-size: 3.5rem;
-        } /* Ajustement Mobile */
+          font-size: 4.5rem;
+        } /* Ajustement Mobile Gros */
         .word-display {
-          height: 120px;
+          height: 150px;
         }
         .player-car-container {
           width: 100px;
@@ -935,7 +944,7 @@
       </div>
     </div>
 
-    <div class="version-tag">v3.6</div>
+    <div class="version-tag">v3.7</div>
 
     <script>
       const wordsDatabase = [
@@ -1328,20 +1337,13 @@
         } else {
           container.innerHTML = scores
             .map((s, i) => {
-              // Compatibilité anciens scores (qui n'étaient que des nombres)
               let scoreVal = typeof s === "object" ? s.score : s;
               let dateVal = typeof s === "object" ? s.date : "";
 
               return `<div class="history-item">
-                        <span>#${i + 1}</span>
-                        <div>
-                            <span class="history-score">${scoreVal} mots</span>
-                            ${
-                              dateVal
-                                ? `<span class="history-date">${dateVal}</span>`
-                                : ""
-                            }
-                        </div>
+                        <span class="history-rank">#${i + 1}</span>
+                        <span class="history-score">${scoreVal} mots</span>
+                        <span class="history-date">${dateVal}</span>
                     </div>`;
             })
             .join("");
@@ -1400,17 +1402,41 @@
         }, 3500);
       }
 
-      function playBeep(freq) {
+      function playBeep(freq, type = "square") {
         if (!audioCtx) return;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.frequency.value = freq;
-        osc.type = "square";
+        osc.type = type;
         gain.gain.value = 0.1;
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
         osc.stop(audioCtx.currentTime + 0.1);
+      }
+
+      function playFinalGong() {
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        // Son type "Cloche/Gong" un peu complexe
+        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(
+          50,
+          audioCtx.currentTime + 1
+        );
+        osc.type = "triangle";
+
+        gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioCtx.currentTime + 1.5
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.5);
       }
 
       function startGame() {
@@ -1425,12 +1451,13 @@
           timeLeft--;
           updateHUD();
 
-          // Beep fin de course
+          // Beep fin de course (5, 4, 3, 2, 1)
           if (timeLeft <= 5 && timeLeft > 0) {
             playBeep(600);
           }
 
           if (timeLeft <= 0) {
+            playFinalGong();
             endGame();
           }
         }, 1000);
@@ -1543,9 +1570,6 @@
         const top3 = scores[2] ? getScoreVal(scores[2]) : "-";
 
         // Rang : on cherche l'index du nouveau score.
-        // Attention : s'il y a des doublons de scores, indexOf renvoie le premier.
-        // Pour être précis, on cherche l'index de l'objet qu'on vient d'ajouter, ou simplement le rang théorique.
-        // Ici, une approximation par la valeur du score suffit pour l'animation.
         const rank = scores.findIndex((s) => getScoreVal(s) === newScore) + 1;
 
         const podiumDiv = document.getElementById("podium");
