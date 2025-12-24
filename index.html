@@ -8,10 +8,10 @@
     />
     <title>Baptiste Racing Lecture</title>
 
-    <!-- Favicon F1 Rouge (SVG encodé) -->
+    <!-- Favicon F1 Rouge -->
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 400%22><rect x=%2220%22 y=%2220%22 width=%22160%22 height=%2230%22 rx=%225%22 fill=%22%23e74c3c%22 stroke=%22%23c0392b%22 stroke-width=%222%22/><rect x=%220%22 y=%2260%22 width=%2240%22 height=%2270%22 rx=%2210%22 fill=%22%232c3e50%22 stroke=%22%23111%22 stroke-width=%222%22/><rect x=%22160%22 y=%2260%22 width=%2240%22 height=%2270%22 rx=%2210%22 fill=%22%232c3e50%22 stroke=%22%23111%22 stroke-width=%222%22/><path d=%22M80 50 L120 50 L110 120 L90 120 Z%22 fill=%22%23e74c3c%22/><path d=%22M60 120 L140 120 L140 300 L60 300 Z%22 fill=%22%23e74c3c%22/><circle cx=%22100%22 cy=%22180%22 r=%2225%22 fill=%22%23333%22 stroke=%22%23111%22 stroke-width=%222%22/><circle cx=%22100%22 cy=%22180%22 r=%2212%22 fill=%22%23f1c40f%22/><rect x=%220%22 y=%22250%22 width=%2245%22 height=%2280%22 rx=%2210%22 fill=%22%232c3e50%22 stroke=%22%23111%22 stroke-width=%222%22/><rect x=%22155%22 y=%22250%22 width=%2245%22 height=%2280%22 rx=%2210%22 fill=%22%232c3e50%22 stroke=%22%23111%22 stroke-width=%222%22/><rect x=%2230%22 y=%22340%22 width=%22140%22 height=%2240%22 rx=%225%22 fill=%22%23e74c3c%22 stroke=%22%23c0392b%22 stroke-width=%222%22/></svg>"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 400%22><rect x=%2220%22 y=%2220%22 width=%22160%22 height=%2230%22 rx=%225%22 fill=%22%23e74c3c%22 stroke=%22%23c0392b%22 stroke-width=%222%22/><path d=%22M60 120 L140 120 L140 300 L60 300 Z%22 fill=%22%23e74c3c%22/><circle cx=%22100%22 cy=%22180%22 r=%2225%22 fill=%22%23333%22/><text x=%22100%22 y=%22260%22 font-family=%22Arial%22 font-weight=%22bold%22 font-size=%2240%22 fill=%22white%22 text-anchor=%22middle%22>1</text></svg>"
     />
 
     <!-- PWA Setup -->
@@ -34,12 +34,9 @@
       :root {
         --asphalt: #2c3e50;
         --road-line: #f1c40f;
-        --grass: #27ae60;
-        --sky: #3498db;
         --text-color: #ecf0f1;
         --red-light: #c0392b;
         --green-light: #2ecc71;
-        --orange-light: #f39c12;
       }
 
       body {
@@ -55,7 +52,7 @@
         -webkit-tap-highlight-color: transparent;
       }
 
-      /* --- BACKGROUND ANIME (ROUTE VUE DESSUS) --- */
+      /* --- BACKGROUND ANIME --- */
       .road-bg {
         position: absolute;
         top: 0;
@@ -63,20 +60,17 @@
         width: 100%;
         height: 100%;
         z-index: -1;
-        /* Lignes pointillées centrales qui défilent vers le bas */
         background: linear-gradient(to bottom, #34495e 0%, #2c3e50 100%),
-          /* Asphalte */
-            repeating-linear-gradient(
-              to bottom,
-              transparent 0,
-              transparent 50px,
-              rgba(255, 255, 255, 0.2) 50px,
-              rgba(255, 255, 255, 0.2) 100px
-            );
+          repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 50px,
+            rgba(255, 255, 255, 0.2) 50px,
+            rgba(255, 255, 255, 0.2) 100px
+          );
         background-blend-mode: overlay;
       }
 
-      /* Ligne centrale animée */
       .road-bg::after {
         content: "";
         position: absolute;
@@ -104,7 +98,6 @@
           transform: translateX(-50%) translateY(160px);
         }
       }
-
       .moving .road-bg::after {
         animation-play-state: running;
       }
@@ -117,7 +110,7 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        max-width: 800px;
+        max-width: 900px;
         margin: 0 auto;
         position: relative;
       }
@@ -130,7 +123,7 @@
         text-align: center;
         color: #fff;
         transform: skew(-10deg);
-        white-space: nowrap; /* Force sur une ligne */
+        white-space: nowrap;
         width: 100%;
       }
 
@@ -138,8 +131,8 @@
         background: linear-gradient(to bottom, #e74c3c, #c0392b);
         border: 4px solid #fff;
         color: white;
-        padding: 15px 30px;
-        font-size: 2rem;
+        padding: 15px 25px;
+        font-size: 1.8rem;
         border-radius: 50px;
         font-family: "Racing Sans One", cursive;
         cursor: pointer;
@@ -147,9 +140,13 @@
         transition: transform 0.1s, box-shadow 0.1s;
         text-transform: uppercase;
         width: 90%;
-        max-width: 400px;
-        margin-bottom: 20px;
-        z-index: 20; /* Toujours au dessus */
+        max-width: 450px;
+        margin-bottom: 15px;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
       }
 
       .btn-main:active {
@@ -166,7 +163,7 @@
         border-radius: 30px;
         cursor: pointer;
         font-family: "Fredoka", sans-serif;
-        margin-top: 20px;
+        margin-top: 10px;
         z-index: 20;
       }
 
@@ -175,21 +172,19 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start; /* Aligne vers le haut */
+        justify-content: flex-start;
         gap: 10px;
         width: 100%;
-        padding-top: 20px; /* Marge haut */
+        padding-top: 20px;
         height: 100%;
       }
 
-      /* Voiture dans le menu (Statique, plus d'animation fixed) */
       .menu-car-display {
-        width: 150px;
+        width: 140px;
         margin: 10px 0;
         filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5));
         animation: idleWobble 2s ease-in-out infinite;
       }
-
       @keyframes idleWobble {
         0%,
         100% {
@@ -210,7 +205,6 @@
         padding: 20px;
         box-sizing: border-box;
       }
-
       .history-list-container {
         flex: 1;
         width: 100%;
@@ -222,7 +216,6 @@
         padding: 10px;
         margin-bottom: 20px;
       }
-
       .history-item {
         display: flex;
         justify-content: space-between;
@@ -234,7 +227,6 @@
         color: var(--road-line);
         font-weight: bold;
       }
-
       .btn-reset {
         background: #c0392b;
         font-size: 1rem;
@@ -242,7 +234,7 @@
         margin-top: 10px;
       }
 
-      /* --- COUNTDOWN SCREEN --- */
+      /* --- COUNTDOWN --- */
       #screen-countdown {
         display: none;
         flex-direction: column;
@@ -250,7 +242,6 @@
         justify-content: center;
         height: 100%;
       }
-
       .traffic-light {
         background: #000;
         padding: 20px;
@@ -260,7 +251,6 @@
         border: 5px solid #555;
         margin-bottom: 50px;
       }
-
       .light {
         width: 80px;
         height: 80px;
@@ -281,7 +271,6 @@
         background: #00ff00;
         box-shadow: 0 0 50px #00ff00;
       }
-
       .count-text {
         font-size: 8rem;
         font-family: "Racing Sans One";
@@ -310,12 +299,22 @@
         padding: 10px 20px;
         border-radius: 50px;
         border: 2px solid #fff;
+        margin-bottom: 20px;
+      }
+
+      /* Container Ligne de Jeu (Mot + Bouton) */
+      .game-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 95%;
+        gap: 15px; /* Espace entre mot et bouton */
         margin-bottom: 10px;
       }
 
       .word-display {
-        height: 150px;
-        width: 95%;
+        flex: 1; /* Prend toute la place restante */
+        height: 160px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -323,14 +322,13 @@
         color: #2c3e50;
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        margin-bottom: 10px; /* Réduit l'espace sous le mot */
         position: relative;
         overflow: hidden;
         z-index: 20;
       }
 
       #current-word {
-        font-size: 3.5rem;
+        font-size: 3rem;
         font-weight: bold;
         text-align: center;
         word-break: break-word;
@@ -338,40 +336,56 @@
         line-height: 1.1;
       }
 
-      /* Classes de polices aléatoires */
-      .font-classic {
-        font-family: "Fredoka", sans-serif;
-      }
-      .font-script {
-        font-family: "Dancing Script", cursive;
-        font-size: 4rem !important;
-      }
-      .font-school {
-        font-family: "Indie Flower", cursive;
-        font-size: 3.8rem !important;
-        font-weight: bold;
+      /* Bouton Suivant (Maintenant à droite) */
+      .btn-next-word {
+        width: 110px;
+        height: 110px;
+        background: #27ae60;
+        border: 4px solid #fff;
+        color: white;
+        border-radius: 50%;
+        font-family: "Racing Sans One", cursive;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 0 5px 0 #1e8449, 0 10px 20px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        z-index: 20;
+        transition: all 0.1s;
+        flex-shrink: 0; /* Ne rétrécit pas */
       }
 
-      /* Conteneur Zone de Conduite + Bouton */
-      .game-controls-area {
+      .btn-next-word:active {
+        transform: translateY(5px);
+        box-shadow: 0 0 0 #1e8449;
+        background: #2ecc71;
+      }
+      .btn-next-word i {
+        font-size: 2rem;
+        margin-bottom: 2px;
+      }
+
+      /* Zone de conduite (Voiture seule) */
+      .driving-zone {
+        flex: 1;
         width: 100%;
-        height: 250px; /* Zone fixe pour la voiture */
         position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
       }
 
-      /* Zone de conduite */
       .player-car-container {
-        position: relative;
-        width: 120px; /* Largeur de la voiture */
+        width: 120px;
         height: 200px;
         filter: drop-shadow(0 20px 20px rgba(0, 0, 0, 0.6));
         animation: carVibration 0.2s linear infinite;
         z-index: 5;
       }
-
       @keyframes carVibration {
         0% {
           transform: translateX(-1px);
@@ -390,42 +404,6 @@
         height: 100%;
       }
 
-      /* Bouton Suivant Fixe - Positionné à droite de la voiture */
-      .btn-next-word {
-        position: absolute;
-        right: 20px; /* Calé à droite */
-        top: 50%;
-        transform: translateY(-50%);
-        background: #27ae60;
-        border: 4px solid #fff;
-        color: white;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        font-family: "Racing Sans One", cursive;
-        font-size: 1rem;
-        cursor: pointer;
-        box-shadow: 0 5px 0 #1e8449, 0 10px 20px rgba(0, 0, 0, 0.4);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-transform: uppercase;
-        z-index: 20;
-        transition: all 0.1s;
-      }
-
-      .btn-next-word:active {
-        transform: translateY(-45%) scale(0.95);
-        box-shadow: 0 0 0 #1e8449;
-        background: #2ecc71;
-      }
-
-      .btn-next-word i {
-        font-size: 2rem;
-        margin-bottom: 2px;
-      }
-
       /* --- RESULT SCREEN (PODIUM) --- */
       #screen-result {
         display: none;
@@ -441,7 +419,7 @@
         justify-content: center;
         height: 300px;
         width: 100%;
-        margin-top: 30px;
+        margin-top: 20px;
       }
 
       .step {
@@ -456,7 +434,6 @@
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
         padding-bottom: 10px;
       }
-
       .step-1 {
         height: 200px;
         background: linear-gradient(to bottom, #f1c40f, #b7950b);
@@ -493,12 +470,10 @@
         top: -70px;
         animation: bounce 1s infinite alternate;
       }
-
       .avatar.baptiste {
         color: #3498db;
         text-shadow: 0 0 10px white;
       }
-
       @keyframes bounce {
         from {
           top: -70px;
@@ -508,7 +483,16 @@
         }
       }
 
-      /* Scène Spéciale Fille */
+      .champ-message {
+        font-size: 1.5rem;
+        color: #f1c40f;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px #000;
+        max-width: 90%;
+      }
+
+      /* SCENE SPECIALE */
       .special-reward-scene {
         position: fixed;
         top: 0;
@@ -523,7 +507,6 @@
         z-index: 100;
         text-align: center;
       }
-
       .scene-content {
         background: white;
         padding: 30px;
@@ -533,7 +516,6 @@
         position: relative;
         animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
-
       @keyframes popIn {
         from {
           transform: scale(0);
@@ -542,13 +524,11 @@
           transform: scale(1);
         }
       }
-
       .couple-emojis {
         font-size: 6rem;
         margin: 20px 0;
         position: relative;
       }
-
       .kiss-mark {
         position: absolute;
         font-size: 4rem;
@@ -559,38 +539,34 @@
         transform: scale(0) rotate(-20deg);
         animation: kissAnim 1s 1s forwards;
       }
-
       @keyframes kissAnim {
         0% {
           opacity: 0;
-          transform: scale(2) rotate(-20deg);
-        }
-        50% {
-          opacity: 1;
-          transform: scale(1) rotate(-20deg);
+          transform: scale(2);
         }
         100% {
           opacity: 0.8;
           transform: scale(1) rotate(-20deg);
         }
       }
-
       .medal-icon {
         font-size: 5rem;
         color: #f1c40f;
         filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
         animation: swing 2s infinite ease-in-out;
       }
-
-      .champ-message {
-        font-size: 1.5rem;
-        color: #f1c40f;
-        margin-bottom: 20px;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px #000;
+      @keyframes swing {
+        0% {
+          transform: rotate(-10deg);
+        }
+        50% {
+          transform: rotate(10deg);
+        }
+        100% {
+          transform: rotate(-10deg);
+        }
       }
 
-      /* Version Tag */
       .version-tag {
         position: fixed;
         bottom: 5px;
@@ -607,7 +583,7 @@
           font-size: 2.2rem;
         }
         #current-word {
-          font-size: 2.5rem;
+          font-size: 2.2rem;
         }
         .word-display {
           height: 120px;
@@ -617,10 +593,9 @@
           height: 160px;
         }
         .btn-next-word {
-          width: 80px;
-          height: 80px;
+          width: 90px;
+          height: 90px;
           font-size: 0.9rem;
-          right: 10px;
         }
         .btn-next-word i {
           font-size: 1.5rem;
@@ -629,11 +604,23 @@
           width: 120px;
         }
       }
+
+      /* Polices */
+      .font-classic {
+        font-family: "Fredoka", sans-serif;
+      }
+      .font-script {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.2em !important;
+      }
+      .font-school {
+        font-family: "Indie Flower", cursive;
+        font-size: 1.1em !important;
+        font-weight: bold;
+      }
     </style>
   </head>
   <body class="moving">
-    <!-- Class moving pour animer la route -->
-
     <div class="road-bg"></div>
 
     <div id="app-container">
@@ -642,10 +629,10 @@
         <h1>BAPTISTE RACING</h1>
 
         <button class="btn-main" onclick="startCountdown()">
+          <i class="fa-solid fa-flag-checkered"></i>
           DÉMARRER LA COURSE
         </button>
 
-        <!-- Voiture Menu (Intégrée) -->
         <div class="menu-car-display">
           <svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
             <rect
@@ -739,12 +726,10 @@
         </button>
       </div>
 
-      <!-- HISTORY SCREEN -->
+      <!-- HISTORY -->
       <div id="screen-history">
         <h1>HISTORIQUE</h1>
-        <div class="history-list-container" id="history-container">
-          <!-- Liste remplie par JS -->
-        </div>
+        <div class="history-list-container" id="history-container"></div>
         <button
           class="btn-main"
           onclick="goMenu()"
@@ -783,13 +768,20 @@
           </span>
         </div>
 
-        <div class="word-display">
-          <div id="current-word">PRÊT ?</div>
+        <!-- Nouvelle Ligne Mot + Bouton -->
+        <div class="game-row">
+          <div class="word-display">
+            <div id="current-word">PRÊT ?</div>
+          </div>
+          <!-- Bouton Suivant Fixe -->
+          <div class="btn-next-word" onclick="nextWord()">
+            <i class="fa-solid fa-forward"></i>
+            SUIVANT
+          </div>
         </div>
 
-        <!-- Conteneur Voiture + Bouton -->
-        <div class="game-controls-area">
-          <!-- Voiture F1 Vue Dessus -->
+        <!-- Zone de conduite (Voiture seule) -->
+        <div class="driving-zone">
           <div class="player-car-container">
             <svg
               class="player-car-svg"
@@ -880,12 +872,6 @@
               </text>
             </svg>
           </div>
-
-          <!-- Bouton Suivant Fixe -->
-          <div class="btn-next-word" onclick="nextWord()">
-            <i class="fa-solid fa-forward"></i>
-            SUIVANT
-          </div>
         </div>
       </div>
 
@@ -900,13 +886,22 @@
           <!-- Généré par JS -->
         </div>
 
-        <button
-          class="btn-main"
-          onclick="location.reload()"
-          style="margin-top: 30px"
+        <div
+          style="
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+          "
         >
-          REJOUER
-        </button>
+          <button class="btn-main" onclick="location.reload()">REJOUER</button>
+          <button class="btn-secondary" onclick="showHistory()">
+            <i class="fa-solid fa-list-ol"></i>
+            Historique
+          </button>
+        </div>
       </div>
     </div>
 
@@ -919,19 +914,16 @@
           👧 ❤️ 👦
           <div class="kiss-mark">💋</div>
         </div>
-        <div>
-          <i class="fa-solid fa-medal medal-icon"></i>
-        </div>
+        <div><i class="fa-solid fa-medal medal-icon"></i></div>
         <p style="margin-top: 20px; font-size: 0.9rem; color: #7f8c8d">
           (Clique pour fermer)
         </p>
       </div>
     </div>
 
-    <div class="version-tag">v3.3</div>
+    <div class="version-tag">v3.4</div>
 
     <script>
-      // --- DATA : 350+ Mots (Niveau ~8 ans / CE2) ---
       const wordsDatabase = [
         "Voiture",
         "Moteur",
@@ -1245,7 +1237,6 @@
         "Trésor",
       ];
 
-      // --- VARIABLES ---
       let currentScore = 0;
       let timeLeft = 60;
       let timerInterval;
@@ -1253,15 +1244,19 @@
       let availableWords = [];
       let audioCtx;
 
-      // --- INIT ---
       window.onload = function () {
-        // Audio context setup
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         audioCtx = new AudioContext();
       };
 
-      // --- SOUND ENGINE ---
-      // Son de démarrage (Rev moteur)
+      function speak(text) {
+        if ("speechSynthesis" in window) {
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = "fr-FR";
+          window.speechSynthesis.speak(utterance);
+        }
+      }
+
       function playStartSound() {
         if (!audioCtx) return;
         if (audioCtx.state === "suspended") audioCtx.resume();
@@ -1269,54 +1264,44 @@
         const t = audioCtx.currentTime;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-
         osc.type = "sawtooth";
-        // Montée en régime
         osc.frequency.setValueAtTime(100, t);
         osc.frequency.exponentialRampToValueAtTime(600, t + 0.8);
         osc.frequency.linearRampToValueAtTime(100, t + 1.2);
-
         gain.gain.setValueAtTime(0.3, t);
         gain.gain.linearRampToValueAtTime(0, t + 1.2);
-
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
         osc.stop(t + 1.3);
       }
 
-      // Son Accélération "Vroum" (Passage de mot)
       function playEngineSound() {
         if (!audioCtx) return;
         if (audioCtx.state === "suspended") audioCtx.resume();
-
         const t = audioCtx.currentTime;
-
-        // Oscillateur 1 (Base grave)
         const osc1 = audioCtx.createOscillator();
         const gain1 = audioCtx.createGain();
         osc1.type = "sawtooth";
         osc1.frequency.setValueAtTime(120, t);
-        osc1.frequency.linearRampToValueAtTime(400, t + 0.2); // Montée rapide
+        osc1.frequency.linearRampToValueAtTime(400, t + 0.2);
         gain1.gain.setValueAtTime(0.2, t);
         gain1.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
-
-        // Connexions
         osc1.connect(gain1);
         gain1.connect(audioCtx.destination);
-
         osc1.start();
         osc1.stop(t + 0.3);
       }
 
-      // --- NAVIGATION ---
       function goMenu() {
         document.getElementById("screen-history").style.display = "none";
         document.getElementById("screen-menu").style.display = "flex";
+        document.getElementById("screen-result").style.display = "none";
       }
 
       function showHistory() {
         document.getElementById("screen-menu").style.display = "none";
+        document.getElementById("screen-result").style.display = "none";
         document.getElementById("screen-history").style.display = "flex";
 
         let scores =
@@ -1342,15 +1327,12 @@
       function resetScores() {
         if (confirm("Effacer tout l'historique ?")) {
           localStorage.removeItem("baptiste_racing_scores");
-          showHistory(); // Refresh
+          showHistory();
         }
       }
 
-      // --- JEU ---
-
       function startCountdown() {
-        playStartSound(); // VROUM au démarrage
-
+        playStartSound();
         document.getElementById("screen-menu").style.display = "none";
         document.getElementById("screen-countdown").style.display = "flex";
 
@@ -1365,12 +1347,10 @@
         };
         const countText = document.getElementById("countdown-display");
 
-        // Reset lights
         lights.red.className = "light red";
         lights.orange.className = "light orange";
         lights.green.className = "light green";
 
-        // Sequence
         setTimeout(() => {
           lights.red.classList.add("active");
           countText.innerText = "3";
@@ -1420,6 +1400,12 @@
         timerInterval = setInterval(() => {
           timeLeft--;
           updateHUD();
+
+          // Beep fin de course
+          if (timeLeft <= 5 && timeLeft > 0) {
+            playBeep(600);
+          }
+
           if (timeLeft <= 0) {
             endGame();
           }
@@ -1428,12 +1414,9 @@
 
       function nextWord() {
         if (!gameActive) return;
-
-        // Animation bouton
         const btn = document.querySelector(".btn-next-word");
         btn.style.transform = "scale(0.95)";
         setTimeout(() => (btn.style.transform = "scale(1)"), 100);
-
         playEngineSound();
         currentScore++;
         updateHUD();
@@ -1446,8 +1429,6 @@
         const word = availableWords.pop();
         const wordEl = document.getElementById("current-word");
         wordEl.innerText = word;
-
-        // Changement de police aléatoire
         const fonts = ["font-classic", "font-script", "font-school"];
         wordEl.className = fonts[Math.floor(Math.random() * fonts.length)];
       }
@@ -1455,10 +1436,9 @@
       function updateHUD() {
         document.getElementById("timer-display").innerText = timeLeft;
         document.getElementById("word-count-display").innerText = currentScore;
-
-        if (timeLeft <= 10) {
+        if (timeLeft <= 10)
           document.getElementById("timer-display").style.color = "#e74c3c";
-        }
+        else document.getElementById("timer-display").style.color = "white";
       }
 
       function endGame() {
@@ -1466,12 +1446,11 @@
         gameActive = false;
         document.getElementById("screen-game").style.display = "none";
         document.getElementById("screen-result").style.display = "flex";
-        document.getElementById("final-score").innerText = currentScore;
 
         saveScore(currentScore);
         showPodium(currentScore);
 
-        // Feu d'artifice Intense
+        speak("Bravo Baptiste, tu es un vrai champion de lecture !");
         launchFireworks();
       }
 
@@ -1484,22 +1463,10 @@
           ticks: 60,
           zIndex: 0,
         };
-
         const interval = setInterval(function () {
           const timeLeft = animationEnd - Date.now();
-
-          if (timeLeft <= 0) {
-            return clearInterval(interval);
-          }
-
+          if (timeLeft <= 0) return clearInterval(interval);
           const particleCount = 50 * (timeLeft / duration);
-          // since particles fall down, start a bit higher than random
-          confetti(
-            Object.assign({}, defaults, {
-              particleCount,
-              origin: { x: Math.random(), y: Math.random() - 0.2 },
-            })
-          );
           confetti(
             Object.assign({}, defaults, {
               particleCount,
@@ -1509,25 +1476,26 @@
         }, 250);
       }
 
-      // --- HIGHSCORES & PODIUM ---
-
       function saveScore(score) {
         let scores =
           JSON.parse(localStorage.getItem("baptiste_racing_scores")) || [];
         scores.push(score);
-        scores.sort((a, b) => b - a); // Descendant (Meilleur en premier)
+        scores.sort((a, b) => b - a);
         localStorage.setItem("baptiste_racing_scores", JSON.stringify(scores));
       }
 
       function showPodium(newScore) {
         let scores =
           JSON.parse(localStorage.getItem("baptiste_racing_scores")) || [];
+        // Nettoyage des doublons pour le podium
+        const uniqueScores = [...new Set(scores)];
 
-        const top1 = scores[0] || 0;
-        const top2 = scores[1] || 0;
-        const top3 = scores[2] || 0;
+        const top1 = uniqueScores[0] || "-";
+        const top2 = uniqueScores[1] || "-";
+        const top3 = uniqueScores[2] || "-";
 
-        const rank = scores.indexOf(newScore) + 1; // 1 = 1er
+        // Rang basé sur tous les scores
+        const rank = scores.indexOf(newScore) + 1;
 
         const podiumDiv = document.getElementById("podium");
         podiumDiv.innerHTML = `
@@ -1560,7 +1528,6 @@
                 </div>
             `;
 
-        // Scène Spéciale "Fille/Bisou" si hors podium (Rank > 3)
         if (rank > 3) {
           setTimeout(() => {
             document.getElementById("special-reward").style.display = "flex";
