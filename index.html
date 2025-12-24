@@ -8,10 +8,10 @@
     />
     <title>Baptiste Racing Lecture</title>
 
-    <!-- Favicon F1 Rouge -->
+    <!-- Favicon F1 Rouge (Format Carré et Encodage URL Strict) -->
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 400%22><rect x=%2220%22 y=%2220%22 width=%22160%22 height=%2230%22 rx=%225%22 fill=%22%23e74c3c%22 stroke=%22%23c0392b%22 stroke-width=%222%22/><path d=%22M60 120 L140 120 L140 300 L60 300 Z%22 fill=%22%23e74c3c%22/><circle cx=%22100%22 cy=%22180%22 r=%2225%22 fill=%22%23333%22/><text x=%22100%22 y=%22260%22 font-family=%22Arial%22 font-weight=%22bold%22 font-size=%2240%22 fill=%22white%22 text-anchor=%22middle%22>1</text></svg>"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='30' y='10' width='40' height='80' rx='10' fill='%23e74c3c' stroke='%23c0392b' stroke-width='2'/%3E%3Ccircle cx='30' cy='25' r='8' fill='%23333'/%3E%3Ccircle cx='70' cy='25' r='8' fill='%23333'/%3E%3Ccircle cx='30' cy='75' r='8' fill='%23333'/%3E%3Ccircle cx='70' cy='75' r='8' fill='%23333'/%3E%3Crect x='40' y='40' width='20' height='15' rx='5' fill='%23333'/%3E%3Ccircle cx='50' cy='47' r='3' fill='%23f1c40f'/%3E%3C/svg%3E"
     />
 
     <!-- PWA Setup -->
@@ -208,7 +208,7 @@
       .history-list-container {
         flex: 1;
         width: 100%;
-        max-width: 500px;
+        max-width: 600px;
         overflow-y: auto;
         background: rgba(0, 0, 0, 0.5);
         border-radius: 15px;
@@ -219,6 +219,7 @@
       .history-item {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 10px;
         border-bottom: 1px dashed #777;
         font-size: 1.2rem;
@@ -227,6 +228,17 @@
         color: var(--road-line);
         font-weight: bold;
       }
+
+      .history-date {
+        font-size: 0.8rem;
+        color: #aaa;
+        margin-left: 10px;
+        display: block;
+      }
+      .history-score {
+        font-weight: bold;
+      }
+
       .btn-reset {
         background: #c0392b;
         font-size: 1rem;
@@ -328,12 +340,13 @@
       }
 
       #current-word {
-        font-size: 3rem;
+        font-size: 5rem; /* SUPER GROS */
         font-weight: bold;
         text-align: center;
         word-break: break-word;
-        padding: 10px;
-        line-height: 1.1;
+        padding: 5px;
+        line-height: 1; /* Interligne serré */
+        width: 100%;
       }
 
       /* Bouton Suivant (Maintenant à droite) */
@@ -583,8 +596,8 @@
           font-size: 2.2rem;
         }
         #current-word {
-          font-size: 2.2rem;
-        }
+          font-size: 3.5rem;
+        } /* Ajustement Mobile */
         .word-display {
           height: 120px;
         }
@@ -878,8 +891,9 @@
       <!-- RESULT PODIUM -->
       <div id="screen-result">
         <h1 style="font-size: 2rem; margin: 10px 0">COURSE TERMINÉE !</h1>
-        <div class="champ-message">
-          Bravo Baptiste, tu es un vrai champion de lecture !
+        <!-- Message texte qui sera mis à jour dynamiquement -->
+        <div class="champ-message" id="champ-message-text">
+          Bravo Baptiste !
         </div>
 
         <div class="podium-container" id="podium">
@@ -921,7 +935,7 @@
       </div>
     </div>
 
-    <div class="version-tag">v3.4</div>
+    <div class="version-tag">v3.6</div>
 
     <script>
       const wordsDatabase = [
@@ -1313,13 +1327,23 @@
             "<div style='color:#ccc; text-align:center;'>Aucune course enregistrée</div>";
         } else {
           container.innerHTML = scores
-            .map(
-              (s, i) =>
-                `<div class="history-item">
+            .map((s, i) => {
+              // Compatibilité anciens scores (qui n'étaient que des nombres)
+              let scoreVal = typeof s === "object" ? s.score : s;
+              let dateVal = typeof s === "object" ? s.date : "";
+
+              return `<div class="history-item">
                         <span>#${i + 1}</span>
-                        <span>${s} mots</span>
-                    </div>`
-            )
+                        <div>
+                            <span class="history-score">${scoreVal} mots</span>
+                            ${
+                              dateVal
+                                ? `<span class="history-date">${dateVal}</span>`
+                                : ""
+                            }
+                        </div>
+                    </div>`;
+            })
             .join("");
         }
       }
@@ -1447,10 +1471,14 @@
         document.getElementById("screen-game").style.display = "none";
         document.getElementById("screen-result").style.display = "flex";
 
+        // Mise à jour du texte de fin
+        const endText = `Bravo Baptiste, tu as réussi à lire ${currentScore} mots en moins d'une minute ! Tu es un vrai champion de lecture !`;
+        document.getElementById("champ-message-text").innerText = endText;
+
         saveScore(currentScore);
         showPodium(currentScore);
 
-        speak("Bravo Baptiste, tu es un vrai champion de lecture !");
+        speak(endText);
         launchFireworks();
       }
 
@@ -1479,23 +1507,46 @@
       function saveScore(score) {
         let scores =
           JSON.parse(localStorage.getItem("baptiste_racing_scores")) || [];
-        scores.push(score);
-        scores.sort((a, b) => b - a);
+
+        // Création de l'objet score avec date
+        const now = new Date();
+        const dateStr =
+          now.toLocaleDateString("fr-FR") +
+          " " +
+          now.toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+        scores.push({ score: score, date: dateStr });
+
+        // Tri décroissant
+        scores.sort((a, b) => {
+          let scoreA = typeof a === "object" ? a.score : a;
+          let scoreB = typeof b === "object" ? b.score : b;
+          return scoreB - scoreA;
+        });
+
         localStorage.setItem("baptiste_racing_scores", JSON.stringify(scores));
       }
 
       function showPodium(newScore) {
         let scores =
           JSON.parse(localStorage.getItem("baptiste_racing_scores")) || [];
-        // Nettoyage des doublons pour le podium
-        const uniqueScores = [...new Set(scores)];
 
-        const top1 = uniqueScores[0] || "-";
-        const top2 = uniqueScores[1] || "-";
-        const top3 = uniqueScores[2] || "-";
+        // Extraction des valeurs de score pour l'affichage (gestion compatibilité vieux format)
+        const getScoreVal = (item) =>
+          typeof item === "object" ? item.score : item;
 
-        // Rang basé sur tous les scores
-        const rank = scores.indexOf(newScore) + 1;
+        const top1 = scores[0] ? getScoreVal(scores[0]) : "-";
+        const top2 = scores[1] ? getScoreVal(scores[1]) : "-";
+        const top3 = scores[2] ? getScoreVal(scores[2]) : "-";
+
+        // Rang : on cherche l'index du nouveau score.
+        // Attention : s'il y a des doublons de scores, indexOf renvoie le premier.
+        // Pour être précis, on cherche l'index de l'objet qu'on vient d'ajouter, ou simplement le rang théorique.
+        // Ici, une approximation par la valeur du score suffit pour l'animation.
+        const rank = scores.findIndex((s) => getScoreVal(s) === newScore) + 1;
 
         const podiumDiv = document.getElementById("podium");
         podiumDiv.innerHTML = `
