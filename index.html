@@ -945,7 +945,7 @@
       </div>
     </div>
 
-    <div class="version-tag">v3.8</div>
+    <div class="version-tag">v3.9</div>
 
     <script>
       const wordsDatabase = [
@@ -1566,9 +1566,16 @@
         const getScoreVal = (item) =>
           typeof item === "object" ? item.score : item;
 
-        const top1 = scores[0] ? getScoreVal(scores[0]) : "-";
-        const top2 = scores[1] ? getScoreVal(scores[1]) : "-";
-        const top3 = scores[2] ? getScoreVal(scores[2]) : "-";
+        // Fonction pour formater avec "mots"
+        const formatScore = (index) => {
+          if (!scores[index]) return "-";
+          const val = getScoreVal(scores[index]);
+          return `${val} mot${val > 1 ? "s" : ""}`;
+        };
+
+        const top1 = formatScore(0);
+        const top2 = formatScore(1);
+        const top3 = formatScore(2);
 
         // Rang : on cherche l'index du nouveau score.
         const rank = scores.findIndex((s) => getScoreVal(s) === newScore) + 1;
